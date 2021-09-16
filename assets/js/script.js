@@ -20,9 +20,11 @@ var questions=[{q:'Commonly used data types DO Not include:', a: '1. Strings',b:
 var timeleft=0;
 var score=0;
 
+//load initial web page
 var loadpage=function(){
             h1El.textContent="Coding Quiz Challenge";
             h3El.textContent="Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds.";
+            pageContentEl.addEventListener("click", taskButtonHandler);
 };
 
 // TODO: Iterate over the questions array and display each question in a confirmation box
@@ -30,10 +32,10 @@ var diplayquestions= function(event){
        event.preventDefault();   
        StartButtonEl.remove();
        h3El.textContent='';
-       timeleft=25;
+       timeleft=75;
        secondsEl.textContent=timeleft;
        i=0;
-       loadnextquestion(i);
+       loadnextquestion(i);  //load the first question
        // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
         var timeInterval = setInterval(function() {
                 // As long as the `timeLeft` is greater than 1
@@ -58,6 +60,7 @@ var diplayquestions= function(event){
         }, 1000);
      };
 
+//display questions on card body area 
 var loadnextquestion=function(c){
                // Display a question and list of options
                resp=questions[c].r;
@@ -89,11 +92,24 @@ var loadnextquestion=function(c){
                cardbody.appendChild(b3El);
                cardbody.appendChild(b4El);
 };
+//remove buttons from card-body
+var cleanbtns=function(){ 
+    document.querySelector('#bt1').remove();
+    document.querySelector('#bt2').remove();
+    document.querySelector('#bt3').remove();
+    document.querySelector('#bt4').remove();
+}
+//Show score after quiz is done
 var showScore=function(){
     h1El.textContent="All Done!";
     h3El.textContent = "Your Final Score is: "+ score;
+    h4El.textContent='';
+    cleanbtns();
+    pageContentEl.removeEventListener("click", taskButtonHandler);
 };
-var taskButtonHandler = function(event) {
+
+//waiting to capture answer for each quesion
+var taskButtonHandler = function(event){
         // get target element from event what option was selected
         var targetEl = event.target;
         var taskId = targetEl.getAttribute("data-task-id");
@@ -108,18 +124,18 @@ var taskButtonHandler = function(event) {
         }
         if (timeleft<0){
             timeleft=0;
-        }
+        };
        i++;
-       document.querySelector('#bt1').remove();
-       document.querySelector('#bt2').remove();
-       document.querySelector('#bt3').remove();
-       document.querySelector('#bt4').remove();
-       loadnextquestion(i); 
-       
+       if(i < questions.length){
+            cleanbtns();
+            loadnextquestion(i); 
+       }else{ 
+            timeleft=0;
+        }
  };
 
-
-loadpage();
+//Initial page
+ loadpage();
 
 //Section for listeners
 //start the quiz1
