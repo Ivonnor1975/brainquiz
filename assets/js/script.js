@@ -22,7 +22,6 @@ var score=0;
 
 var loadpage=function(){
             h1El.textContent="Coding Quiz Challenge";
-            h1El.textContent;
             h3El.textContent="Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds.";
 };
 
@@ -30,7 +29,7 @@ var loadpage=function(){
 var diplayquestions= function(event){   
        event.preventDefault();   
        StartButtonEl.remove();
-       h3El.remove();
+       h3El.textContent='';
        timeleft=25;
        secondsEl.textContent=timeleft;
        i=0;
@@ -53,7 +52,7 @@ var diplayquestions= function(event){
                     // Use `clearInterval()` to stop the timer
                     clearInterval(timeInterval);
                     // Call the record score function
-                    //recordScore();
+                    showScore();
                 }
                 
         }, 1000);
@@ -90,7 +89,11 @@ var loadnextquestion=function(c){
                cardbody.appendChild(b3El);
                cardbody.appendChild(b4El);
 };
- var taskButtonHandler = function(event) {
+var showScore=function(){
+    h1El.textContent="All Done!";
+    h3El.textContent = "Your Final Score is: "+ score;
+};
+var taskButtonHandler = function(event) {
         // get target element from event what option was selected
         var targetEl = event.target;
         var taskId = targetEl.getAttribute("data-task-id");
@@ -112,7 +115,9 @@ var loadnextquestion=function(c){
        document.querySelector('#bt3').remove();
        document.querySelector('#bt4').remove();
        loadnextquestion(i); 
+       
  };
+
 
 loadpage();
 
