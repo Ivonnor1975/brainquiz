@@ -8,7 +8,8 @@ var secondsEl=document.querySelector('#seconds');
 var resp='';
 var pageContentEl = document.querySelector(".page-content")
 // create array to hold scores for saving
-var saveScores = [];
+var takers = [];
+
 
 // TODO: Create an array with five question objects
 var questions=[{q:'Commonly used data types DO Not include:', a: '1. Strings',b: '2.	Booleans', c:'3. Alerts ',d: '4.	Numbers', r:'3'},
@@ -27,6 +28,7 @@ var loadpage=function(){
             h1El.textContent="Coding Quiz Challenge";
             h3El.textContent="Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds.";
             StartButtonEl.addEventListener("submit", diplayquestions);
+            loadTakers();
 };
 
 // TODO: Iterate over the questions array and display each question in a confirmation box
@@ -39,8 +41,7 @@ var diplayquestions= function(event){
        secondsEl.textContent=timeleft;
        i=0;
        loadnextquestion(i);  //load the first question
-       
-        //for questions and answers list of button options
+               //for questions and answers list of button options
         pageContentEl.addEventListener("click", taskButtonHandler);
        // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
         var timeInterval = setInterval(function() {
@@ -59,7 +60,7 @@ var diplayquestions= function(event){
                     secondsEl.textContent = '0';
                     // Use `clearInterval()` to stop the timer
                     clearInterval(timeInterval);
-                    // Call the record score function
+                    // sgow final score to user
                     showScore();
                 }
                 
@@ -120,7 +121,7 @@ var showScore=function(){
     var FN = document.createElement("input");
     FN.setAttribute("type", "text");
     FN.setAttribute("name", "initials");
-    FN.setAttribute("id", "in");
+    FN.setAttribute("id", "in");  //needed for validation
     FN.setAttribute("placeholder", "Enter Your Initials");
     // create a submit button
     var s = document.createElement("button");
@@ -137,14 +138,53 @@ var showScore=function(){
             alert("You need to enter initials");
             return false;
         }else{
-           savelocal(); 
+           saveScore(); 
+           displayScores();
         }
     })
 };
 
-var savelocal=function(){
-
+var saveScore=function(){
+    //load intial and score to object
+    var takerinitials = document.querySelector("input[name='initials']").value;
+    var takerDataObj = {
+        initiales: takerinitials,
+        grado: score,
+    };
+    // save taker as an object with initials, score properties then push it into takers array
+    takers.push(takerDataObj);    
+    //save on local storage
+    localStorage.setItem("takers", JSON.stringify(takers));
 };
+
+var displayScores=function(){
+    var SCEl=document.getElementById("card-score");
+    SCEl.classList.remove("hide");
+    var cbEl=document.getElementById("card");
+    cbEl.classList.add("hide");
+}
+
+//reasd local storage to display scores
+var loadTakers = function() {
+    var savedtakers = localStorage.getItem("takers");
+    // if there are no tasks, set tasks to an empty array and return out of the function
+    if (!savedtakers) {
+      return false;
+    }
+   
+    // else, load up saved tasks
+  
+    // parse into array of objects
+    savedtakers=JSON.parse(savedtakers);
+    debugger;
+    // loop through savedTasks array
+    for (var i = 0; i < savedtakers.length; i++) {
+      // pass each task object into the `createTaskEl()` function
+      takers.push(savedtakers[i]);
+      console.log(savedtakers[i]);
+    }
+  };
+  
 
 //waiting to capture answer for each quesion
 var taskButtonHandler = function(event){

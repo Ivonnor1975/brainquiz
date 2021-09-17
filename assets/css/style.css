@@ -56,10 +56,14 @@ header {
 .card-body {
   min-height: 100px;
 }
-
+.hide{
+  display: none;
+}
 .card-footer {
   text-align: center;
 }
+
+
 
 .card-footer::before {
   content: " ";
