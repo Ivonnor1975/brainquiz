@@ -75,7 +75,7 @@ header {
   clear: both;
 }
 
-.btn1{
+.btn1, .btinit{
   border: none;
   background-color: purple;
   border-radius: 25px;
@@ -96,7 +96,7 @@ button[disabled] {
   background: #c0c7cf;
 }
 
-#btn1:hover{
+.btn1:hover{
   color: white;
   background-color: black;
 }

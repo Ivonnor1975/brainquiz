@@ -7,6 +7,8 @@ var cardbody=document.querySelector(".card-body");
 var secondsEl=document.querySelector('#seconds');
 var resp='';
 var pageContentEl = document.querySelector(".page-content")
+// create array to hold scores for saving
+var saveScores = [];
 
 // TODO: Create an array with five question objects
 var questions=[{q:'Commonly used data types DO Not include:', a: '1. Strings',b: '2.	Booleans', c:'3. Alerts ',d: '4.	Numbers', r:'3'},
@@ -20,22 +22,26 @@ var questions=[{q:'Commonly used data types DO Not include:', a: '1. Strings',b:
 var timeleft=0;
 var score=0;
 
-//load initial web page
+//load initial web page and reload it at the end ti start over
 var loadpage=function(){
             h1El.textContent="Coding Quiz Challenge";
             h3El.textContent="Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds.";
-            pageContentEl.addEventListener("click", taskButtonHandler);
+            StartButtonEl.addEventListener("submit", diplayquestions);
 };
 
 // TODO: Iterate over the questions array and display each question in a confirmation box
 var diplayquestions= function(event){   
-       event.preventDefault();   
+       event.preventDefault();
+       StartButtonEl.removeEventListener("submit", diplayquestions);
        StartButtonEl.remove();
        h3El.textContent='';
        timeleft=75;
        secondsEl.textContent=timeleft;
        i=0;
        loadnextquestion(i);  //load the first question
+       
+        //for questions and answers list of button options
+        pageContentEl.addEventListener("click", taskButtonHandler);
        // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
         var timeInterval = setInterval(function() {
                 // As long as the `timeLeft` is greater than 1
@@ -62,9 +68,9 @@ var diplayquestions= function(event){
 
 //display questions on card body area 
 var loadnextquestion=function(c){
-               // Display a question and list of options
+               // Display the question 
                resp=questions[c].r;
-               //display question
+               //display options
                h1El.textContent = questions[c].q;
                h1El.textContent;
                var b1El = document.createElement('button');
@@ -98,7 +104,7 @@ var cleanbtns=function(){
     document.querySelector('#bt2').remove();
     document.querySelector('#bt3').remove();
     document.querySelector('#bt4').remove();
-}
+};
 //Show score after quiz is done
 var showScore=function(){
     h1El.textContent="All Done!";
@@ -106,7 +112,32 @@ var showScore=function(){
     h4El.textContent='';
     cleanbtns();
     pageContentEl.removeEventListener("click", taskButtonHandler);
+    //create to capture initials  
+    var FN = document.createElement("input");
+    FN.setAttribute("type", "text");
+    FN.setAttribute("name", "initials");
+    FN.setAttribute("id", "in");
+    FN.setAttribute("placeholder", "Enter Your Initials");
+    // create a submit button
+    var s = document.createElement("button");
+    s.textContent = "Submit";
+    s.setAttribute("class", "btinit");
+    s.setAttribute("value", "Submit");
+    document.querySelector(".card-body").appendChild(FN);
+    document.querySelector(".card-body").appendChild(s);
+    //validate user entry before sending to the score page 
+    s.addEventListener("click", ()=>{
+        var strlengthEl = document.getElementById("in");
+        if (strlengthEl.value.length < 1){
+            alert("You need to enter initials");
+            return false;
+        }else{
+           saveScores(); 
+        }
+    })
 };
+
+
 
 //waiting to capture answer for each quesion
 var taskButtonHandler = function(event){
@@ -136,9 +167,3 @@ var taskButtonHandler = function(event){
 
 //Initial page
  loadpage();
-
-//Section for listeners
-//start the quiz1
-StartButtonEl.addEventListener("submit", diplayquestions);
-//for list of button options
-pageContentEl.addEventListener("click", taskButtonHandler);
