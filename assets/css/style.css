@@ -74,7 +74,9 @@ header {
   display: block;
   clear: both;
 }
-
+.initials{
+  font-size: 18px;
+}
 .btn1, .btinit{
   border: none;
   background-color: purple;
@@ -82,7 +84,6 @@ header {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px 0px rgba(0, 0, 0, 0.2) 0px 1px 1px
     0px;
   color: hsl(0, 0%, 100%);
-  display: block;
   font-size: 22px;
   line-height: 22px;
   margin: 16px 16px 16px 20px;
@@ -90,13 +91,16 @@ header {
   text-align: center;
   cursor: pointer;
 }
+.btn1{
+  display: block;
+}
 
 button[disabled] {
   cursor: default;
   background: #c0c7cf;
 }
 
-.btn1:hover{
+.btn1:hover, .btinit:hover{
   color: white;
   background-color: black;
 }

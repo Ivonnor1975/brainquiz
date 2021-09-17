@@ -113,6 +113,10 @@ var showScore=function(){
     cleanbtns();
     pageContentEl.removeEventListener("click", taskButtonHandler);
     //create to capture initials  
+    var LN = document.createElement("label");
+    LN.setAttribute("type", "text");
+    LN.setAttribute("name", "initials");
+    LN.textContent="Enter Initials:  ";
     var FN = document.createElement("input");
     FN.setAttribute("type", "text");
     FN.setAttribute("name", "initials");
@@ -123,6 +127,7 @@ var showScore=function(){
     s.textContent = "Submit";
     s.setAttribute("class", "btinit");
     s.setAttribute("value", "Submit");
+    document.querySelector(".card-body").appendChild(LN);
     document.querySelector(".card-body").appendChild(FN);
     document.querySelector(".card-body").appendChild(s);
     //validate user entry before sending to the score page 
@@ -132,12 +137,14 @@ var showScore=function(){
             alert("You need to enter initials");
             return false;
         }else{
-           saveScores(); 
+           savelocal(); 
         }
     })
 };
 
+var savelocal=function(){
 
+};
 
 //waiting to capture answer for each quesion
 var taskButtonHandler = function(event){
