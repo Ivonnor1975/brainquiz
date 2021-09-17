@@ -117,6 +117,7 @@ var showScore=function(){
     var LN = document.createElement("label");
     LN.setAttribute("type", "text");
     LN.setAttribute("name", "initials");
+    LN.setAttribute("id", "labelin");  
     LN.textContent="Enter Initials:  ";
     var FN = document.createElement("input");
     FN.setAttribute("type", "text");
@@ -126,6 +127,7 @@ var showScore=function(){
     // create a submit button
     var s = document.createElement("button");
     s.textContent = "Submit";
+    s.id='btinit';
     s.setAttribute("class", "btinit");
     s.setAttribute("value", "Submit");
     document.querySelector(".card-body").appendChild(LN);
@@ -170,6 +172,7 @@ var displayScores=function(){
     h1El.textContent="High Scores";
     //create ordered list
     var olEl= document.createElement('ol');
+    olEl.id="lists-cores";
     document.getElementById('card-score').appendChild(olEl);
     //create score li for each taker
     for (var i = 0; i < takers.length; i++) {
@@ -190,9 +193,36 @@ var displayScores=function(){
            var cardf=document.querySelector(".card-footer")
            cardf.appendChild(backb1El);
            cardf.appendChild(clearbEl);
-           //backb1El.addEventListener("click", loadpage);
+           backb1El.addEventListener("click", goback);
            clearbEl.addEventListener("click",clearcache);
 };
+
+var goback=function(){
+    //clean page before loading original page
+    //remove buttons
+    document.querySelector('#clearbtn').remove();
+    document.querySelector('#gobtn').remove();
+    //remove li
+    let menu = document.getElementById('lists-cores');
+    while (menu.firstChild) {
+        menu.removeChild(menu.firstChild);
+    }
+    //remove ol
+    menu.remove();
+    //remove text and input for initials 
+    document.getElementById('in').remove();
+    document.getElementById('labelin').remove();
+    document.getElementById('btinit').remove();
+    //hide card score section
+    var SCEl=document.getElementById("card-score");
+    SCEl.classList.add("hide");
+    //hide content from display questions and final score
+    var cbEl=document.getElementById("card-body");
+    cbEl.classList.remove("hide");
+    h3El = document.querySelector(".card h3");
+    loadpage();
+}
+
 
 var clearcache=function(){
     takers = [];
@@ -243,8 +273,4 @@ var taskButtonHandler = function(event){
             timeleft=0;
         }
  };
-
-//Initial page
-document.addEventListener("DOMContentLoaded", ()=>{
-    loadpage();
-});
+ loadpage();
