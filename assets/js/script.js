@@ -28,7 +28,7 @@ var loadpage=function(){
             h1El.textContent="Coding Quiz Challenge";
             h3El.textContent="Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds.";
             StartButtonEl.addEventListener("submit", diplayquestions);
-            loadTakers();
+            loadTakers();  //recover takers score saved on local storage
 };
 
 // TODO: Iterate over the questions array and display each question in a confirmation box
@@ -132,23 +132,25 @@ var showScore=function(){
     document.querySelector(".card-body").appendChild(FN);
     document.querySelector(".card-body").appendChild(s);
     //validate user entry before sending to the score page 
-    s.addEventListener("click", ()=>{
-        var strlengthEl = document.getElementById("in");
-        if (strlengthEl.value.length < 1){
-            alert("You need to enter initials");
-            return false;
-        }else{
-           saveScore(); 
-           displayScores();
-        }
-    })
+    s.addEventListener("click",validatedata);
 };
 
+//validate initial are not empty
+var validatedata=function(){
+    var strlengthEl = document.getElementById("in");
+    if (strlengthEl.value.length < 1){
+        alert("You need to enter initials");
+        return false;
+    }else{
+    saveScore(); //save current score to local storage
+    displayScores(); //invoke the fuction to display all scores.
+    }
+};
 var saveScore=function(){
     //load intial and score to object
     var takerinitials = document.querySelector("input[name='initials']").value;
     var takerDataObj = {
-        initiales: takerinitials,
+        initiales: takerinitials.toUpperCase(),
         grado: score,
     };
     // save taker as an object with initials, score properties then push it into takers array
@@ -158,31 +160,61 @@ var saveScore=function(){
 };
 
 var displayScores=function(){
+    //display card score
     var SCEl=document.getElementById("card-score");
     SCEl.classList.remove("hide");
-    var cbEl=document.getElementById("card");
+    //hide content from display questions and final score
+    var cbEl=document.getElementById("card-body");
     cbEl.classList.add("hide");
-}
+    var h1El = document.querySelector(".card h1");
+    h1El.textContent="High Scores";
+    //create ordered list
+    var olEl= document.createElement('ol');
+    document.getElementById('card-score').appendChild(olEl);
+    //create score li for each taker
+    for (var i = 0; i < takers.length; i++) {
+        var listItemEl = document.createElement("li");
+        listItemEl.className = "score-item";
+        listItemEl.textContent= takers[i].initiales+' -'+takers[i].grado;
+        olEl.appendChild(listItemEl);
+    }
+    //display buttons
+       var backb1El = document.createElement('button');
+           backb1El.textContent= 'Go Back'
+           backb1El.className = "gobtn";
+           backb1El.id = "gobtn"
+       var clearbEl = document.createElement('button');
+           clearbEl.textContent= 'Clear High Scores'
+           clearbEl.className = "clearbtn";
+           clearbEl.id = "clearbtn"
+           var cardf=document.querySelector(".card-footer")
+           cardf.appendChild(backb1El);
+           cardf.appendChild(clearbEl);
+           //backb1El.addEventListener("click", loadpage);
+           clearbEl.addEventListener("click",clearcache);
+};
 
-//reasd local storage to display scores
+var clearcache=function(){
+    takers = [];
+    localStorage.setItem("takers", JSON.stringify(takers))
+};
+
+//read local storage to array
 var loadTakers = function() {
     var savedtakers = localStorage.getItem("takers");
     // if there are no tasks, set tasks to an empty array and return out of the function
     if (!savedtakers) {
       return false;
     }
-   
     // else, load up saved tasks
   
     // parse into array of objects
     savedtakers=JSON.parse(savedtakers);
-    debugger;
-    // loop through savedTasks array
+    // loop through savedTasks array to add to takers array
     for (var i = 0; i < savedtakers.length; i++) {
       // pass each task object into the `createTaskEl()` function
       takers.push(savedtakers[i]);
-      console.log(savedtakers[i]);
-    }
+     }
   };
   
 
@@ -213,4 +245,6 @@ var taskButtonHandler = function(event){
  };
 
 //Initial page
- loadpage();
+document.addEventListener("DOMContentLoaded", ()=>{
+    loadpage();
+});

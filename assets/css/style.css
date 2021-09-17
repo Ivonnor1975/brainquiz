@@ -25,12 +25,17 @@ h1, h2, h3{
   padding-left: 20px;
   padding-right: 20px;
 }
+ol {
+  list-style: value;
+}
 
 header {
   text-align: right;
   padding: 20px;
   padding-top: 0px;
   color: hsl(206, 17%, 28%);
+  display: flex;
+  justify-content: center;
 }
 
 .card , .card-footer {
@@ -64,7 +69,6 @@ header {
 }
 
 
-
 .card-footer::before {
   content: " ";
   display: block;
@@ -81,7 +85,7 @@ header {
 .initials{
   font-size: 18px;
 }
-.btn1, .btinit{
+.btn1, .btinit, .clearbtn, .gobtn{
   border: none;
   background-color: purple;
   border-radius: 25px;
@@ -104,7 +108,7 @@ button[disabled] {
   background: #c0c7cf;
 }
 
-.btn1:hover, .btinit:hover{
+.btn1:hover, .btinit:hover, .clearbtn:hover, .gobtn:hover{
   color: white;
   background-color: black;
 }
