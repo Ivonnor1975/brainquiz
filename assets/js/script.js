@@ -153,6 +153,7 @@ var validatedata=function(){
         return false;
     }else{
     saveScore(); //save current score to local storage
+
     displayScores(); //invoke the fuction to display all scores.
     }
 };
@@ -164,11 +165,12 @@ var saveScore=function(){
         grado: score,
     };
     // save taker as an object with initials, score properties then push it into takers array
-    takers.push(takerDataObj);    
+    takers.push(takerDataObj);
+    takers.sort(function(a, b){return b.grado - a.grado});
     //save on local storage
     localStorage.setItem("takers", JSON.stringify(takers));
+    
 };
-
 var displayScores=function(){
     //display card score
     var SCEl=document.getElementById("card-score");
@@ -245,9 +247,9 @@ var loadTakers = function() {
       return false;
     }
     // else, load up saved tasks
-  
-    // parse into array of objects
+      // parse into array of objects
     savedtakers=JSON.parse(savedtakers);
+    takers=[];
     // loop through savedTasks array to add to takers array
     for (var i = 0; i < savedtakers.length; i++) {
       // pass each task object into the `createTaskEl()` function
