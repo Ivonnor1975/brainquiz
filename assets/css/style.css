@@ -28,6 +28,9 @@ h1, h2, h3{
 ol {
   list-style: value;
 }
+li:nth-child(2n -1) {
+  background-color: plum;
+}
 
 header {
   text-align: right;

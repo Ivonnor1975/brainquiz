@@ -25,16 +25,24 @@ var score=0;
 
 //load initial web page and reload it at the end ti start over
 var loadpage=function(){
+            score=0;
             h1El.textContent="Coding Quiz Challenge";
             h3El.textContent="Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds.";
-            StartButtonEl.addEventListener("submit", diplayquestions);
+            StartButtonEl = document.createElement('button');
+            StartButtonEl.textContent= 'Start Quiz';
+            StartButtonEl.className= "btn1";
+            StartButtonEl.id = "btn1";
+            var cardf=document.querySelector("#task-form")
+            cardf.appendChild(StartButtonEl);
             loadTakers();  //recover takers score saved on local storage
+            StartButtonEl.addEventListener("click", diplayquestions);
+            
 };
 
 // TODO: Iterate over the questions array and display each question in a confirmation box
 var diplayquestions= function(event){   
        event.preventDefault();
-       StartButtonEl.removeEventListener("submit", diplayquestions);
+       StartButtonEl.removeEventListener("click", diplayquestions);
        StartButtonEl.remove();
        h3El.textContent='';
        timeleft=75;
