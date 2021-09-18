@@ -237,6 +237,8 @@ var goback=function(){
 var clearcache=function(){
     takers = [];
     localStorage.setItem("takers", JSON.stringify(takers))
+    var SCEl=document.getElementById("card-score");
+    SCEl.classList.add("hide");
 };
 
 //read local storage to array
