@@ -20,6 +20,9 @@ body {
 h1, h2, h3{
   text-align: center;
 }
+a{
+  color:purple;
+}
 .wrapper {
   padding-top: 30px;
   padding-left: 20px;
@@ -38,7 +41,7 @@ header {
   padding-top: 0px;
   color: hsl(206, 17%, 28%);
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .card , .card-footer {
