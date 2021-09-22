@@ -7,4 +7,5 @@ It is timed coding quiz with multiple-choice questions. This app will run in the
 
 Built With HTML CSS and  Java Script
 
+The website is published at https://ivonnor1975.github.io/brainquiz/
 ©️2021 Ivonne, Inc Contribution Made with ❤️ by [Ivonne]
